@@ -5,10 +5,13 @@ import { Router } from "react-router-dom";
 import Routes from "./routes";
 import history from "./service/history";
 
+import GlobalStyle from "./styles/global";
+
 function App() {
   return (
     <Router history={history}>
       <Routes />
+      <GlobalStyle />
     </Router>
   );
 }
