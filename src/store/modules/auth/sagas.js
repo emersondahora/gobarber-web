@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import api from "~/service/api";
 import history from "~/service/history";
 
-import { signInSuccess } from "./actions";
+import { signInSuccess, signFailure } from "./actions";
 
 export function* signIn({ payload }) {
   try {
@@ -25,4 +25,24 @@ export function* signIn({ payload }) {
   history.push("/dashboard");
 }
 
-export default all([takeLatest("@auth/SING_IN_REQUEST", signIn)]);
+export function* signUp({ payload }) {
+  try {
+    const { name, email, password } = payload;
+
+    yield call(api.post, "users", {
+      name,
+      email,
+      password,
+      provider: true
+    });
+    history.push("/");
+  } catch (error) {
+    toast.error("Falha no cadastro, verifique seus dados! ");
+    yield put(signFailure());
+  }
+}
+
+export default all([
+  takeLatest("@auth/SING_IN_REQUEST", signIn),
+  takeLatest("@aut/SIGN_UP_REQUEST", signUp)
+]);
