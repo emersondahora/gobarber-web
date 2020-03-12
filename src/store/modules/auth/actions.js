@@ -14,13 +14,19 @@ export function signInSuccess(token, user) {
 
 export function signUpRequest(name, email, password) {
   return {
-    type: "@aut/SIGN_UP_REQUEST",
+    type: "@auth/SIGN_UP_REQUEST",
     payload: { name, email, password }
   };
 }
 
 export function signFailure() {
   return {
-    type: "@aut/SIGN_FAILURE"
+    type: "@auth/SIGN_FAILURE"
+  };
+}
+
+export function signOut() {
+  return {
+    type: "@auth/SIGN_OUT"
   };
 }

@@ -21,10 +21,11 @@ export function* signIn({ payload }) {
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield put(signInSuccess(token, user));
+    history.push("/dashboard");
   } catch (err) {
     toast.error("Falha na autenticação, verifique seus dados");
+    yield put(signFailure());
   }
-  history.push("/dashboard");
 }
 
 export function* signUp({ payload }) {
@@ -51,8 +52,12 @@ export function setToken({ payload }) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
   }
 }
+export function signOut() {
+  history.push("/");
+}
 export default all([
   takeLatest("persist/REHYDRATE", setToken),
   takeLatest("@auth/SING_IN_REQUEST", signIn),
-  takeLatest("@aut/SIGN_UP_REQUEST", signUp)
+  takeLatest("@auth/SIGN_UP_REQUEST", signUp),
+  takeLatest("@auth/SIGN_OUT", signOut)
 ]);
